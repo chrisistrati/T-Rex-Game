@@ -35,4 +35,3 @@ def grab_screen(region=None):
 
     return cv2.cvtColor(img, cv2.COLOR_BGRA2RGB)
 
-#comment

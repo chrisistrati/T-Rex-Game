@@ -3,7 +3,7 @@ import numpy as np
 import cv2
 import time
 import keyboard
-from screenshot import grab_screen
+from screenshot_function import grab_screen
 from datetime import date
 
 def jump(image, temlpate):

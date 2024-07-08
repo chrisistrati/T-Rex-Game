@@ -15,7 +15,9 @@ def duck(image, temlpate):
     result=cv2.matchTemplate(image, temlpate, cv2.TM_CCOEFF_NORMED)
     min_value, max_value, min_loc, max_loc = cv2. minMaxLoc(result)
     if max_value>0.6:
-        keyboard.press("down arrow")
+        pyautogui.keyDown("down")
+        time.sleep(0.5)
+        pyautogui.keyUp("down")
         
 def checkObject(image, temlpate):
     answer=False
@@ -63,6 +65,7 @@ smol_image=np.array(pyautogui.screenshot(region=(max_loc[0]-int(w/2), max_loc[1]
 # cv2.waitKey()
 # cv2.destroyAllWindows()
 
+
 scores=[]
 start=time.time()
 pyautogui.press(" ")
@@ -77,18 +80,27 @@ while True:
         smol_image=np.array(grab_screen(region=(max_loc[0], max_loc[1], w+140, h)))
     elif duration >30 and duration<=40:
         smol_image=np.array(grab_screen(region=(max_loc[0], max_loc[1], w+160, h)))
-    elif duration >40:
-        smol_image=np.array(grab_screen(region=(max_loc[0], max_loc[1], w+190, h)))
-    print(int(duration*10)) if int(duration*10) not in scores else None
-    scores.append(int(duration*10))
+    elif duration >40 and duration<=60:
+        smol_image=np.array(grab_screen(region=(max_loc[0], max_loc[1], w+200, h)))
+    elif duration >60 and duration<=80:
+        smol_image=np.array(grab_screen(region=(max_loc[0], max_loc[1], w+220, h)))
+    elif duration >80:
+        smol_image=np.array(grab_screen(region=(max_loc[0], max_loc[1], w+250, h)))
+    
+
+    if duration<=40 and int(duration*10) not in scores:
+        scores.append(int(duration*10))
+    elif duration>40 and int(duration*11) not in scores:
+        scores.append(int(duration*11))
+    print(scores[-1]) 
     jump(smol_image, big_cactus)
     jump(smol_image, small_cactus)
     jump(smol_image, pterodactil_down)
     duck(smol_image, pterodactil_up)  
     if keyboard.is_pressed("s"):
         break
-    # if checkObject(grab_screen(), game_over):
-    #     break
+    if checkObject(np.array(grab_screen(region=(800, 400, 500, 500))), game_over):
+        break
 with open("T-Rex Scores.csv", "a") as file:
     file.write(f"\n{max(scores)},{date.today()}")
     

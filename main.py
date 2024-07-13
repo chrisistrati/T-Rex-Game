@@ -9,7 +9,7 @@ from datetime import date
 def jump(image, temlpate):
     result=cv2.matchTemplate(image, temlpate, cv2.TM_CCOEFF_NORMED)
     min_value, max_value, min_loc, max_loc = cv2. minMaxLoc(result)
-    if max_value>0.55:
+    if max_value>0.6:
         keyboard.press("up arrow")
 def duck(image, temlpate):
     result=cv2.matchTemplate(image, temlpate, cv2.TM_CCOEFF_NORMED)
@@ -75,7 +75,7 @@ smol_image=np.array(pyautogui.screenshot(region=(max_loc[0]-int(w/2), max_loc[1]
 #     values_int.append(int(i))
 # print(values_int)
 
-values_int=[95, 130, 155, 173, 192, 243, 270, 300]
+values_int=[95, 135, 155, 173, 192, 250, 270, 300]
 
 scores=[]
 start=time.time()
@@ -103,10 +103,8 @@ while True:
         smol_image=np.array(grab_screen(region=(max_loc[0], max_loc[1], w+350, h)))
     
 
-    if duration<=40 and int(duration*10) not in scores:
+    if int(duration*10) not in scores:
         scores.append(int(duration*10))
-    elif duration>40 and int(duration*13) not in scores:
-        scores.append(int(duration*13))
     print(scores[-1]) 
     jump(smol_image, big_cactus)
     jump(smol_image, small_cactus)
